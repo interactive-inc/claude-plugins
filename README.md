@@ -1,10 +1,32 @@
 # Claude Code プラグインマーケットプレース
 
-Interactive Inc.が提供する Claude Code 用のプラグイン集です。コード品質向上とレビュー自動化のための専門的なツールを提供します。
+Interactive Inc.が提供する Claude Code 用のプラグイン集です。
 
-## 概要
+## インストール方法
 
-このリポジトリは、Claude Code で使用できる高品質なプラグインを提供するマーケットプレースです。コードレビューとスキル評価に特化した 2 つのプラグインが含まれています。
+### 前提条件
+
+- Claude Code がインストールされていること
+
+### マーケットプレースの追加
+
+`/plugins` コマンドからマーケットプレースを追加:
+
+```bash
+/plugin marketplace add interactive-inc/claude-plugins
+```
+
+### プラグインのインストール
+
+マーケットプレース追加後、以下のコマンドでプラグインをインストールできます：
+
+```bash
+# reviewing-code プラグインのインストール
+/plugin install reviewing-code@interactive-claude-plugins
+
+# reviewing-skills プラグインのインストール
+/plugin install reviewing-skills@interactive-claude-plugins
+```
 
 ## 提供プラグイン
 
@@ -60,83 +82,3 @@ Interactive Inc.が提供する Claude Code 用のプラグイン集です。コ
 - 自作スキルの品質チェック
 - スキルのベストプラクティス準拠確認
 - スキルの改善提案取得
-
-## インストール方法
-
-### 前提条件
-
-- Claude Code がインストールされていること
-
-### マーケットプレースの追加
-
-`/plugins` コマンドからマーケットプレースを追加:
-
-```bash
-/plugin marketplace add interactive-inc/claude-plugins
-```
-
-### プラグインのインストール
-
-マーケットプレース追加後、以下のコマンドでプラグインをインストールできます：
-
-```bash
-# reviewing-code プラグインのインストール
-claude plugin install reviewing-code
-
-# reviewing-skills プラグインのインストール
-claude plugin install reviewing-skills
-```
-
-## 使用方法
-
-### reviewing-code の使用例
-
-```bash
-# 単一ファイルのレビュー
-claude skill reviewing-code src/services/user-service.ts
-
-# ディレクトリ全体のレビュー
-claude skill reviewing-code src/components/
-
-# 特定のエージェントのみ実行
-claude agent review-srp-reviewer src/
-```
-
-### reviewing-skills の使用例
-
-```bash
-# スキルファイルのレビュー
-claude skill reviewing-skills ./skills/my-skill/
-
-# 複数のスキルを一括レビュー
-claude skill reviewing-skills ./skills/
-```
-
-## プロジェクト構造
-
-```
-claude-plugins/
-├── .claude-plugin/
-│   └── marketplace.json          # マーケットプレース定義
-├── agents/
-│   └── review/                   # レビューエージェント群
-│       ├── review-srp-reviewer.md
-│       ├── review-human-code-reviewer.md
-│       ├── review-kiss-reviewer.md
-│       ├── review-coc-reviewer.md
-│       ├── review-typescript-comprehensive.md
-│       └── review-garbage-detector.md
-├── skills/
-│   ├── reviewing-code/           # コードレビュースキル
-│   │   ├── SKILL.md
-│   │   ├── REPORT_TEMPLATE.md
-│   │   ├── ANALYSIS_GUIDE.md
-│   │   ├── METRICS.md
-│   │   └── EXAMPLES.md
-│   └── reviewing-skills/         # スキルレビュースキル
-│       ├── SKILL.md
-│       ├── REPORT_TEMPLATE.md
-│       ├── CHECKLIST.md
-│       └── EXAMPLES.md
-└── README.md                     # このファイル
-```

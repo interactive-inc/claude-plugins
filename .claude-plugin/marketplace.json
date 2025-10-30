@@ -1,5 +1,5 @@
 {
-  "name": "interactive-dev-tools-marketplace",
+  "name": "interactive-claude-plugins",
   "owner": {
     "name": "Interactive Inc.",
     "email": "info@inta.co.jp"
@@ -7,14 +7,14 @@
   "plugins": [
     {
       "name": "reviewing-skills",
-      "description": "スキルをレビューするスキル",
+      "description": "作成したskillsをレビューを行う",
       "version": "0.1.0",
       "source": "./",
       "skills": ["./skills/reviewing-skills"]
     },
     {
       "name": "reviewing-code",
-      "description": "コードレビューするスキル",
+      "description": "AIが理解しやすい項目でコードレビューを行う",
       "version": "0.1.0",
       "source": "./",
       "agents": [
