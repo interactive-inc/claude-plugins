@@ -69,22 +69,11 @@ Interactive Inc.が提供する Claude Code 用のプラグイン集です。コ
 
 ### マーケットプレースの追加
 
-1. Claude Code の設定ファイル（通常は `~/.claude/config.json`）を開く
+`/plugins` コマンドからマーケットプレースを追加:
 
-2. `marketplace` セクションにこのリポジトリを追加:
-
-```json
-{
-  "marketplace": [
-    {
-      "name": "Interactive Dev Tools",
-      "url": "https://raw.githubusercontent.com/[your-username]/claude-plugins/main/.claude-plugin/marketplace.json"
-    }
-  ]
-}
+```bash
+/plugin marketplace add interactive-inc/claude-plugins
 ```
-
-3. Claude Code を再起動
 
 ### プラグインのインストール
 

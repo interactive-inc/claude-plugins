@@ -18,12 +18,12 @@
       "version": "0.1.0",
       "source": "./",
       "agents": [
-        "./agents/review/review-coc-reviewer",
-        "./agents/review/review-garbage-detector",
-        "./agents/review/review-human-code-reviewer",
-        "./agents/review/review-kiss-reviewer",
-        "./agents/review/review-srp-reviewer",
-        "./agents/review/review-typescript-comprehensive"
+        "./agents/review/review-coc-reviewer.md",
+        "./agents/review/review-garbage-detector.md",
+        "./agents/review/review-human-code-reviewer.md",
+        "./agents/review/review-kiss-reviewer.md",
+        "./agents/review/review-srp-reviewer.md",
+        "./agents/review/review-typescript-comprehensive.md"
       ],
       "skills": ["./skills/reviewing-code"]
     }
