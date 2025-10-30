@@ -21,64 +21,38 @@ Interactive Inc.が提供する Claude Code 用のプラグイン集です。
 マーケットプレース追加後、以下のコマンドでプラグインをインストールできます：
 
 ```bash
-# reviewing-code プラグインのインストール
-/plugin install reviewing-code@interactive-claude-plugins
-
-# reviewing-skills プラグインのインストール
-/plugin install reviewing-skills@interactive-claude-plugins
+# review-skills プラグインのインストール
+/plugin install review-skills@interactive-claude-plugins
 ```
 
-## 提供プラグイン
+## 利用可能なプラグイン
 
-### 1. reviewing-code
+### review-skills
 
-**説明**: 実装コードを 6 つの専門エージェントで多角的にレビューし、トレードオフを考慮した優先度付き改善計画を策定します。
+コードレビューと品質評価を支援するプラグインです。複数の専門エージェントとスキルを組み合わせて、多角的なコード分析を実行できます。
 
-**主な機能**:
+#### 含まれるスキル
 
-- 複数の設計原則に基づく包括的なコードレビュー
-- 優先度付きの改善提案
-- 段階的な実装計画の策定
-- トレードオフ分析
+**reviewing-ts-code**
 
-**含まれるエージェント**:
+- 実装コードを 6 つの専門エージェント（SRP、可読性、KISS、規約、TypeScript、ゴミファイル検出）で多角的にレビュー
+- トレードオフを考慮した優先度付き改善計画を策定
 
-- `review-srp-reviewer` - Single Responsibility Principle（単一責任の原則）の評価
-- `review-human-code-reviewer` - Code for Humans 原則（可読性）の評価
-- `review-kiss-reviewer` - KISS 原則（シンプルさ）の評価
-- `review-coc-reviewer` - Convention over Configuration（規約優先）の評価
-- `review-typescript-comprehensive` - TypeScript 型安全性の総合評価
-- `review-garbage-detector` - 不要ファイル・ゴミファイルの検出
+**reviewing-skills**
 
-**使用場面**:
+- Claude Code スキル自体をベストプラクティスに照らしてレビュー
+- スキルの品質、構造、発見可能性、効率性を 8 つの観点から評価
+- A-F 評価とスコアを算出
 
-- 新機能実装後の品質確認
-- リファクタリング前の現状分析
-- 定期的なコード品質監査
-- 技術的負債の特定と優先順位付け
+#### 含まれるエージェント
 
-### 2. reviewing-skills
+以下の 6 つの専門レビューエージェントが利用可能です：
 
-**説明**: Claude Code スキルをベストプラクティスに照らして包括的にレビューし、具体的な改善提案を提供します。
+- **review-srp-reviewer**: Single Responsibility Principle（単一責任の原則）評価
+- **review-human-code-reviewer**: Code for Humans（可読性）評価
+- **review-kiss-reviewer**: KISS 原則（シンプルさ）評価
+- **review-coc-reviewer**: Convention over Configuration（規約）評価
+- **review-typescript-comprehensive**: TypeScript 型安全性総合評価
+- **review-garbage-detector**: 不要ファイル・ゴミファイル検出
 
-**主な機能**:
-
-- スキルファイルの構造と内容の評価
-- ベストプラクティスへの準拠チェック
-- A-F の総合評価スコアの算出
-- 具体的な改善例の提示
-
-**評価観点**:
-
-- 命名規則（Naming Convention）
-- Description の品質と発見可能性
-- Progressive Disclosure の実装状況
-- コンテンツの簡潔性と明確性
-- ワークフローと検証機構
-- テンプレートと例の提供
-
-**使用場面**:
-
-- 自作スキルの品質チェック
-- スキルのベストプラクティス準拠確認
-- スキルの改善提案取得
+これらのエージェントは、スキル実行時に自動的に呼び出されます。

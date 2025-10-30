@@ -4,195 +4,141 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## プロジェクト概要
 
-このリポジトリは、Claude Code用のプラグインマーケットプレースです。コードレビューとスキル評価に特化した2つのプラグイン群を提供しています。
+このリポジトリは、Interactive Inc.が提供するClaude Code用のプラグインマーケットプレースです。スキルとエージェントを組み合わせて、コードレビュー、品質評価、改善提案などの高度なタスクを自動化します。
 
 ## アーキテクチャ
 
-### プラグイン構造
-
-プラグインは以下の3つのコンポーネントで構成されています：
-
-1. **Marketplace Definition** (`.claude-plugin/marketplace.json`)
-   - プラグインのメタデータと所有者情報を定義
-   - 各プラグインのエージェントとスキルへの参照を管理
-
-2. **Agents** (`agents/`)
-   - 独立して実行可能な専門エージェント
-   - 各エージェントは特定の原則やベストプラクティスに基づいてレビューを実施
-   - 統一された報告形式 (`agent-report-format.md`) に従って結果を出力
-
-3. **Skills** (`skills/`)
-   - 複数のエージェントを統合して包括的なレビューを実施
-   - Progressive Disclosure パターンを採用し、詳細情報を外部ファイルに分離
-   - 各スキルは以下のファイル構成を持つ：
-     - `SKILL.md`: スキルのメイン定義（500行以下推奨）
-     - 参照ファイル: テンプレート、ガイド、チェックリスト、例など
-
-### プラグイン間の関係
+### ディレクトリ構造
 
 ```
-marketplace.json
-├── reviewing-code プラグイン
-│   ├── Agents (6つの専門レビューエージェント)
-│   │   ├── review-srp-reviewer (単一責任の原則)
-│   │   ├── review-human-code-reviewer (可読性)
-│   │   ├── review-kiss-reviewer (シンプルさ)
-│   │   ├── review-coc-reviewer (規約優先)
-│   │   ├── review-typescript-comprehensive (型安全性)
-│   │   └── review-garbage-detector (不要ファイル検出)
-│   └── Skill: reviewing-code
-│       ├── エージェントの統合実行
-│       ├── トレードオフ分析 (ANALYSIS_GUIDE.md)
-│       ├── 統合レポート生成 (REPORT_TEMPLATE.md)
-│       └── 成功指標の定義 (METRICS.md)
-│
-└── reviewing-skills プラグイン
-    └── Skill: reviewing-skills
-        ├── ベストプラクティスチェック (CHECKLIST.md)
-        ├── レポート生成 (REPORT_TEMPLATE.md)
-        └── 改善例の提示 (EXAMPLES.md)
+.
+├── .claude-plugin/          # プラグインマーケットプレース設定
+│   └── marketplace.json     # マーケットプレース定義ファイル
+├── agents/                  # 専門エージェント定義
+│   └── review/             # コードレビュー用エージェント
+└── skills/                 # スキル定義
+    ├── reviewing-skills/   # スキルレビュー用スキル
+    └── reviewing-ts-code/  # TypeScriptコードレビュー用スキル
 ```
 
-## 重要な設計原則
+### コンポーネント構成
 
-### 1. Progressive Disclosure
+#### 1. マーケットプレース設定 (.claude-plugin/marketplace.json)
+- プラグイン名、バージョン、所有者情報を定義
+- エージェントとスキルの参照パスを管理
+- 現在のプラグイン: `review-skills` (v0.1.0)
 
-スキルファイルは以下の原則に従います：
+#### 2. エージェント (agents/review/)
+専門的なレビュー観点に特化した6つのエージェント：
 
-- **SKILL.md は500行以下**: 主要な情報のみを含む
-- **詳細は外部ファイルに分離**: テンプレート、ガイド、チェックリストなど
-- **参照は1階層のみ**: SKILL.md → 参照ファイル（これ以上のネストは避ける）
-- **"Context window is a public good"**: 不要な情報を排除し、簡潔性を保つ
+- **review-srp-reviewer.md**: Single Responsibility Principle（単一責任の原則）評価
+- **review-human-code-reviewer.md**: Code for Humans（可読性）評価
+- **review-kiss-reviewer.md**: KISS原則（シンプルさ）評価
+- **review-coc-reviewer.md**: Convention over Configuration（規約）評価
+- **review-typescript-comprehensive.md**: TypeScript型安全性総合評価
+- **review-garbage-detector.md**: 不要ファイル・ゴミファイル検出
 
-### 2. トレードオフ分析
+各エージェントは：
+- YAML frontmatterで名前と説明を定義
+- 専門分野に特化したレビュー観点を提供
+- 統一された報告形式（`../docs/agent-report-format.md`準拠）で結果を出力
 
-`reviewing-code` スキルの核心概念：
+#### 3. スキル (skills/)
 
-- 複数のエージェントからの提案が相反する場合がある
-- 優先順位: **セキュリティ > 保守性 > パフォーマンス > コード美観**
-- 段階的アプローチ: Phase 1-4 で現実的な改善計画を策定
-- 詳細は `skills/reviewing-code/ANALYSIS_GUIDE.md` を参照
+##### reviewing-skills
+Claude Codeスキル自体をレビューするメタスキル：
+- `SKILL.md`: スキル定義（YAML frontmatter + 実行手順）
+- `CHECKLIST.md`: ベストプラクティスチェックリスト
+- `REPORT_TEMPLATE.md`: レビューレポート出力テンプレート
+- `EXAMPLES.md`: 良い例・悪い例の具体例
 
-### 3. 統一された報告形式
+##### reviewing-ts-code
+実装コードを多角的にレビューするスキル：
+- `SKILL.md`: コードレビューワークフロー定義
+- `ANALYSIS_GUIDE.md`: トレードオフ分析手法
+- `REPORT_TEMPLATE.md`: 統合レポート形式
+- `METRICS.md`: 成功指標の定義
+- `EXAMPLES.md`: レビュー結果の具体例
 
-すべてのエージェントは以下の5セクション構造で報告：
+### Progressive Disclosure パターン
 
-1. 実行結果サマリー
-2. 対象ファイル一覧（相対パス）
-3. 具体的な提案内容（サンプルコード付き）
-4. 意思決定が必要な事項
-5. 次のアクション
+すべてのスキルは以下の原則に従って設計されています：
 
-## ファイル作成・編集時の注意事項
+1. **SKILL.md**: 500行以下の簡潔な定義
+2. **詳細情報の外部化**: 長大な情報は別ファイルに分離
+3. **必要時のみ参照**: Claude Codeが必要な時だけ詳細ファイルを読み込む
+4. **1階層の参照**: 参照の深さは1階層まで（SKILL.md → 詳細ファイル）
 
-### スキルファイルを作成/編集する場合
+## マーケットプレースの使用方法
 
-1. **命名規則**: Gerund形式（動詞+-ing）を使用
-   - 良い例: `reviewing-code`, `analyzing-data`
-   - 悪い例: `code-review`, `data-analyzer`
+### インストール
 
-2. **Description**: 発見可能性を重視
-   - 三人称で記述
-   - トリガーワード（"Use when..."）を含める
-   - 具体的な機能とユースケースを列挙
-   - 200-800文字の範囲
+```bash
+# マーケットプレースを追加
+/plugin marketplace add interactive-inc/claude-plugins
 
-3. **Progressive Disclosure**:
-   - SKILL.md は概要とワークフローのみ
-   - テンプレート、詳細ガイド、例は別ファイルに分離
-   - 参照は相対パス（`./FILENAME.md`）で記述
+# プラグインをインストール
+/plugin install review-skills@interactive-claude-plugins
+```
 
-4. **検証とエラーハンドリング**:
-   - 各ステップに検証項目を含める
-   - エラー時の代替処理を明示
-   - "Solve, Don't Punt" 原則に従う
+### スキルの実行
 
-### エージェントファイルを作成/編集する場合
+```bash
+# TypeScriptコードをレビュー
+/skill reviewing-ts-code
 
-1. **YAML Frontmatter**: 必須フィールド
-   ```yaml
-   ---
-   name: agent-name
-   description: エージェントの説明（具体的に）
-   ---
-   ```
+# Claude Codeスキルをレビュー
+/skill reviewing-skills
+```
 
-2. **専門性の明確化**:
-   - 評価する原則やベストプラクティスを明示
-   - レビュー観点を箇条書きで列挙
-   - 改善提案方法を具体的に記述
+## 開発ワークフロー
 
-3. **報告形式への参照**:
-   - 最終報告の形式セクションを含める
-   - `agent-report-format.md` への参照を記載
+### 新しいエージェントの追加
 
-## マーケットプレース定義の更新
+1. `agents/<カテゴリ>/` に新しいマークダウンファイルを作成
+2. YAML frontmatterで `name` と `description` を定義
+3. エージェントの専門分野とレビュー観点を記述
+4. `.claude-plugin/marketplace.json` の `agents` 配列にパスを追加
 
-`.claude-plugin/marketplace.json` を編集する際：
+### 新しいスキルの追加
 
-1. **プラグイン追加時**:
-   - `name`: プラグインの一意な識別子
-   - `description`: プラグインの概要（日本語可）
-   - `version`: セマンティックバージョニング
-   - `source`: リポジトリのルート（通常は `"./"`）
-   - `agents`: エージェントファイルへの相対パス配列
-   - `skills`: スキルディレクトリへの相対パス配列
+1. `skills/<スキル名>/` ディレクトリを作成
+2. `SKILL.md` を作成（YAML frontmatter必須）
+   - `name`: gerund形式（動詞-ing）、小文字、ハイフン区切り
+   - `description`: 具体的なキーワードとトリガーワードを含む
+3. 詳細情報を別ファイルに分離（500行制限を守る）
+4. `.claude-plugin/marketplace.json` の `skills` 配列にパスを追加
 
-2. **パス指定**:
-   - エージェント: ファイルパス（`./agents/review/agent-name.md`）
-   - スキル: ディレクトリパス（`./skills/skill-name`）
+### スキルの品質基準
 
-## レビューワークフロー
+新しいスキルは以下の基準を満たす必要があります：
 
-### reviewing-code の実行フロー
+- **命名**: Gerund形式（例: reviewing-code, analyzing-performance）
+- **Description**: トリガーワード含有、1024文字以内
+- **行数**: SKILL.md は500行以下
+- **参照**: 外部ファイル参照は1階層まで
+- **検証**: 各ステップに検証とエラーハンドリングを含む
 
-1. **エージェント並行実行**: 6つのエージェントを同時実行
-2. **結果収集**: 各エージェントの報告を収集
-3. **トレードオフ分析**: 相反する提案を `ANALYSIS_GUIDE.md` に基づいて調整
-4. **優先度付け**: Critical/High/Medium/Low の4段階
-5. **統合レポート生成**: `REPORT_TEMPLATE.md` の形式で出力
-6. **段階的計画**: Phase 1-4 の実装ロードマップを策定
+## Git ワークフロー
 
-### reviewing-skills の実行フロー
+### 現在のステータス
+- メインブランチ: `main`
+- 削除予定ファイル: `CLAUDE.md`（旧版）、`skills/reviewing-code/` ディレクトリ
+- 新規ファイル: `skills/reviewing-ts-code/`（追跡対象外）
 
-1. **ファイル読み込み**: 対象スキルの SKILL.md と関連ファイル
-2. **チェックリスト評価**: `CHECKLIST.md` の各項目を確認
-3. **スコア算出**: A-F評価とポイント計算
-4. **問題分類**: Critical/High/Medium/Low で優先度付け
-5. **改善例提示**: `EXAMPLES.md` から類似例を参照
-6. **レポート生成**: `REPORT_TEMPLATE.md` の形式で出力
+### コミット時の注意点
+- プラグイン定義（marketplace.json）の変更はバージョン番号の更新を伴う
+- スキルやエージェントの追加時は、必ず marketplace.json も更新する
+- 削除予定ファイルは次回コミット時に削除される
 
-## ベストプラクティス
+## プラグインの品質保証
 
-### コードレビュープラグイン開発時
+このリポジトリ自体が `reviewing-skills` スキルを使用してレビュー可能です：
 
-- **実用性重視**: 理想的な設計より、現実的で実装可能な提案を優先
-- **段階的改善**: 一度にすべてを修正せず、Phase分けで段階的に実施
-- **トレードオフの明示**: 相反する提案がある場合、その理由と推奨を説明
-- **チームの現実考慮**: スキルレベル、リソース、CI/CDとの整合性を考慮
+```bash
+# このリポジトリのスキルをレビュー
+/skill reviewing-skills
+# 対象: ./skills/reviewing-skills または ./skills/reviewing-ts-code
+```
 
-### スキルレビュープラグイン開発時
-
-- **ベストプラクティス準拠**: 公式ガイドラインに厳格に従う
-- **具体的な改善案**: 修正前後の比較例を必ず含める
-- **建設的フィードバック**: 問題指摘だけでなく、解決策を提示
-- **継続的改善**: A評価でも、さらなる改善の余地を示唆
-
-## 一般的な開発タスク
-
-このリポジトリには実行可能なコードやビルドプロセスはありません。すべてMarkdownドキュメントとJSON設定ファイルで構成されています。
-
-### 品質チェック
-
-新しいスキルやエージェントを追加した後：
-
-1. `marketplace.json` のJSON構文が正しいことを確認
-2. すべてのファイルパスが存在することを確認
-3. スキルが500行以下であることを確認（推奨）
-4. YAML frontmatter が正しい形式であることを確認
-
-### ドキュメント一貫性
-
-- すべての相対パスは Unix スタイル (`/`) を使用
-- 日本語と英語が混在する場合、主要言語は日本語
-- 技術用語は適切に統一（例: "エージェント", "スキル", "プラグイン"）
+これにより、メタ的にスキルの品質を継続的に改善できます。
