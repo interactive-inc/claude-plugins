@@ -1,0 +1,31 @@
+{
+  "name": "interactive-dev-tools-marketplace",
+  "owner": {
+    "name": "Interactive Inc.",
+    "email": "info@inta.co.jp"
+  },
+  "plugins": [
+    {
+      "name": "reviewing-skills",
+      "description": "スキルをレビューするスキル",
+      "version": "0.1.0",
+      "source": "./",
+      "skills": ["./skills/reviewing-skills"]
+    },
+    {
+      "name": "reviewing-code",
+      "description": "コードレビューするスキル",
+      "version": "0.1.0",
+      "source": "./",
+      "agents": [
+        "./agents/review/review-coc-reviewer",
+        "./agents/review/review-garbage-detector",
+        "./agents/review/review-human-code-reviewer",
+        "./agents/review/review-kiss-reviewer",
+        "./agents/review/review-srp-reviewer",
+        "./agents/review/review-typescript-comprehensive"
+      ],
+      "skills": ["./skills/reviewing-code"]
+    }
+  ]
+}
