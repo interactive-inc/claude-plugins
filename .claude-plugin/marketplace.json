@@ -7,18 +7,17 @@
   "plugins": [
     {
       "name": "review-skills",
-      "description": "様々なレビューを行うスキル集です",
+      "description": "skills開発に利用しているプラグイン",
+      "version": "1.0.0",
+      "source": "./",
+      "skills": ["./skills/reviewing-skills"]
+    },
+    {
+      "name": "jobantenna",
+      "description": "ジョブアンテナ開発で利用しているプラグイン",
       "version": "0.1.0",
       "source": "./",
-      "agents": [
-        "./agents/review/review-coc-reviewer.md",
-        "./agents/review/review-garbage-detector.md",
-        "./agents/review/review-human-code-reviewer.md",
-        "./agents/review/review-kiss-reviewer.md",
-        "./agents/review/review-srp-reviewer.md",
-        "./agents/review/review-typescript-comprehensive.md"
-      ],
-      "skills": ["./skills/reviewing-skills", "./skills/reviewing-code"]
+      "skills": ["./skills/jobantenna/laravel-command-creator"]
     }
   ]
 }
