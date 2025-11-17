@@ -23,7 +23,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ├── agents/                  # 専門レビューエージェント
 │   └── review/              # コードレビュー用エージェント群
 └── skills/                  # スキル実装
-    ├── reviewing-skills/    # スキルレビュー
+    ├── claude-skills-reviewer/    # スキルレビュー
     ├── reviewing-ts-code/   # TypeScript コードレビュー
     └── jobantenna/          # プロジェクト固有スキル
 ```
@@ -41,10 +41,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   - 統合レポートテンプレート: `skills/reviewing-ts-code/REPORT_TEMPLATE.md`
   - メトリクス定義: `skills/reviewing-ts-code/METRICS.md`
 
-- **reviewing-skills**: Claude Code スキル自体をベストプラクティスに照らしてレビュー
+- **claude-skills-reviewer**: Claude Code スキル自体をベストプラクティスに照らしてレビュー
   - 8 つの観点から評価（命名、description、Progressive Disclosure など）
   - A-F 評価とスコアを算出
-  - チェックリスト: `skills/reviewing-skills/CHECKLIST.md`
+  - チェックリスト: `skills/claude-skills-reviewer/CHECKLIST.md`
 
 **含まれるエージェント（agents/review/）:**
 
@@ -128,7 +128,7 @@ skills/{skill-name}/
 
 ### スキルのレビュー
 
-`reviewing-skills` スキルを使用して新規スキルの品質を評価：
+`claude-skills-reviewer` スキルを使用して新規スキルの品質を評価：
 
 ```bash
 # スキルレビューの実行

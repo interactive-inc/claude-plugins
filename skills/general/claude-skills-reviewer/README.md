@@ -1,4 +1,4 @@
-# reviewing-skills
+# claude-skills-reviewer
 
 Claude Code スキルをベストプラクティスに照らして包括的にレビューし、具体的な改善提案を提供するスキルです。
 
@@ -45,7 +45,7 @@ Claude Code CLI がインストールされている必要があります。
 ## ファイル構成
 
 ```
-skills/reviewing-skills/
+skills/claude-skills-reviewer/
 ├── README.md              # このファイル
 ├── SKILL.md              # メインスキル定義（実行フロー、評価基準）
 ├── CHECKLIST.md          # 詳細な評価チェックリスト（7カテゴリ、配点付き）
@@ -59,7 +59,7 @@ skills/reviewing-skills/
 
 1. **スキルの呼び出し**
    ```
-   「reviewing-skills スキルを使って [スキル名] をレビューしてください」
+   「claude-skills-reviewer スキルを使って [スキル名] をレビューしてください」
    ```
 
 2. **対象スキルの指定**

@@ -38,7 +38,7 @@ Interactive Inc.が提供する Claude Code 用のプラグイン集です。
 - 実装コードを 6 つの専門エージェント（SRP、可読性、KISS、規約、TypeScript、ゴミファイル検出）で多角的にレビュー
 - トレードオフを考慮した優先度付き改善計画を策定
 
-**reviewing-skills**
+**claude-skills-reviewer**
 
 - Claude Code スキル自体をベストプラクティスに照らしてレビュー
 - スキルの品質、構造、発見可能性、効率性を 8 つの観点から評価

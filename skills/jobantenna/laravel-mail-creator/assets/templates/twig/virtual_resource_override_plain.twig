@@ -1,0 +1,7 @@
+{% extends 'emails/to_consumer/your_template_plain.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+{% block content %}{% autoescape false %}
+  {{ parent() }}
+{% endautoescape %}{% endblock %}

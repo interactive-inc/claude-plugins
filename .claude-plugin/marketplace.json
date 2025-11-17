@@ -10,14 +10,17 @@
       "description": "skills開発に利用しているプラグイン",
       "version": "1.0.0",
       "source": "./",
-      "skills": ["./skills/reviewing-skills"]
+      "skills": ["./skills/general/claude-skills-reviewer"]
     },
     {
       "name": "jobantenna",
       "description": "ジョブアンテナ開発で利用しているプラグイン",
       "version": "0.1.0",
       "source": "./",
-      "skills": ["./skills/jobantenna/laravel-command-creator"]
+      "skills": [
+        "./skills/jobantenna/laravel-command-creator", 
+        "./skills/jobantenna/laravel-mail-creator"
+      ]
     }
   ]
 }

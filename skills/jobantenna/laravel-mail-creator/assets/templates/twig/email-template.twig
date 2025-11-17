@@ -1,0 +1,92 @@
+{% extends 'virtual_resources::emails.layouts.base' %}
+
+{% block title %}
+    {{ subject }}
+{% endblock %}
+
+{% block content %}
+    {# Header Section #}
+    <p>{{ user.name }} 様</p>
+
+    <p>
+        いつもご利用いただきありがとうございます。<br>
+        {{ config('siteNames.users') }}です。
+    </p>
+
+    {# Main Content Section #}
+    <p>
+        {# Add your main email content here #}
+        {# Example: Application confirmation #}
+        以下の求人への応募が完了しました。
+    </p>
+
+    {# Data Display Section #}
+    <table class="data-table">
+        <tr>
+            <th>求人タイトル</th>
+            <td>{{ joboffer.title }}</td>
+        </tr>
+        <tr>
+            <th>企業名</th>
+            <td>{{ company.name }}</td>
+        </tr>
+        <tr>
+            <th>応募日時</th>
+            <td>{{ application.appliedDate | date('Y年m月d日 H:i') }}</td>
+        </tr>
+    </table>
+
+    {# Call to Action Section #}
+    <p>
+        <a href="{{ url }}" class="button">
+            応募詳細を確認する
+        </a>
+    </p>
+
+    {# Additional Information Section #}
+    <p>
+        今後の選考については、企業から直接ご連絡いたします。<br>
+        しばらくお待ちください。
+    </p>
+
+    {# Footer Section #}
+    <p>
+        ご不明な点がございましたら、お気軽にお問い合わせください。
+    </p>
+
+    {# Conditional Content Example #}
+    {% if messageRoom %}
+    <p>
+        企業とのメッセージ機能もご利用いただけます。<br>
+        <a href="{{ messageRoom.url }}">メッセージを確認する</a>
+    </p>
+    {% endif %}
+
+    {# Loop Example #}
+    {% if educationHistories is defined and educationHistories is not empty %}
+    <h3>学歴情報</h3>
+    <ul>
+        {% for history in educationHistories %}
+        <li>
+            {{ history.schoolName }}
+            {% if history.facultyName %}
+                {{ history.facultyName }}
+            {% endif %}
+            {% if history.departmentName %}
+                {{ history.departmentName }}
+            {% endif %}
+            {% if history.graduatedAt %}
+                （{{ history.graduatedAt | date('Y年') }}卒業）
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    <p>
+        このメールは {{ config('siteNames.users') }} からの自動送信メールです。<br>
+        心当たりがない場合は、このメールを破棄してください。
+    </p>
+{% endblock %}

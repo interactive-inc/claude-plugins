@@ -1,0 +1,47 @@
+{{ user.name }} 様
+
+いつもご利用いただきありがとうございます。
+{{ config('siteNames.users') }}です。
+
+以下の求人への応募が完了しました。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+■ 求人タイトル
+{{ joboffer.title }}
+
+■ 企業名
+{{ company.name }}
+
+■ 応募日時
+{{ application.appliedDate | date('Y年m月d日 H:i') }}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+応募詳細はこちらからご確認いただけます：
+{{ url }}
+
+今後の選考については、企業から直接ご連絡いたします。
+しばらくお待ちください。
+
+{% if messageRoom %}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+企業とのメッセージ機能もご利用いただけます。
+メッセージを確認する： {{ messageRoom.url }}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{% endif %}
+
+{% if educationHistories is defined and educationHistories is not empty %}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+■ 学歴情報
+{% for history in educationHistories %}
+・{{ history.schoolName }}{% if history.facultyName %} {{ history.facultyName }}{% endif %}{% if history.departmentName %} {{ history.departmentName }}{% endif %}{% if history.graduatedAt %}（{{ history.graduatedAt | date('Y年') }}卒業）{% endif %}
+
+{% endfor %}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{% endif %}
+
+ご不明な点がございましたら、お気軽にお問い合わせください。
+
+―――――――――――――――――――――――――――――――――――――――
+このメールは {{ config('siteNames.users') }} からの自動送信メールです。
+心当たりがない場合は、このメールを破棄してください。
+―――――――――――――――――――――――――――――――――――――――
