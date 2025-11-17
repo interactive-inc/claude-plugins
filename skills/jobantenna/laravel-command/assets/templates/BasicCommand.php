@@ -27,12 +27,23 @@ class BasicCommand extends Command
     public function handle(): int
     {
         try {
-            $this->info('Start: Basic command processing');
-
             $dryRun = $this->option('dry-run');
 
+            // Display dry-run mode warning at the very beginning
             if ($dryRun) {
-                $this->info('Dry-run mode: No actual processing');
+                $this->warn('========================================');
+                $this->warn('  DRY-RUN MODE: No actual processing');
+                $this->warn('========================================');
+                $this->newLine();
+            }
+
+            $this->info('Start: Basic command processing');
+
+            if ($dryRun) {
+                $this->info('Preview: This is what would be executed');
+                // Show preview of what would be processed
+                $this->newLine();
+                $this->info('Dry-run completed successfully');
                 return Command::SUCCESS;
             }
 

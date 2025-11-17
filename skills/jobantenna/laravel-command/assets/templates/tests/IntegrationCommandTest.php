@@ -164,6 +164,10 @@ class IntegrationCommandTest extends TestCase
 
         // Act: Execute command in dry-run mode
         $this->artisan('job-antenna:your-command --dry-run')
+            ->expectsOutput('========================================')
+            ->expectsOutput('  DRY-RUN MODE: No actual processing')
+            ->expectsOutput('========================================')
+            ->expectsOutput('Dry-run completed successfully')
             ->assertSuccessful();
 
         // Assert: Database remains unchanged

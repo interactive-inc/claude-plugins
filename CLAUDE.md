@@ -20,40 +20,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 .
 ├── .claude-plugin/
 │   └── marketplace.json     # プラグインマーケットプレース定義
-├── agents/                  # 専門レビューエージェント
-│   └── review/              # コードレビュー用エージェント群
 └── skills/                  # スキル実装
-    ├── claude-skills-reviewer/    # スキルレビュー
-    ├── reviewing-ts-code/   # TypeScript コードレビュー
+    ├── general/             # 汎用スキル
+    │   └── claude-skills-review/  # スキルレビュー
     └── jobantenna/          # プロジェクト固有スキル
+        ├── laravel-command/ # Laravel コマンド実装
+        └── laravel-mail/    # Laravel メール実装
 ```
 
 ## 利用可能なプラグイン
 
-### 1. review-skills
+### 1. general
 
-コードレビューと品質評価を支援するプラグイン。
+汎用的な開発支援プラグイン。
 
 **含まれるスキル:**
 
-- **reviewing-ts-code**: 実装コードを 6 つの専門エージェント（SRP、可読性、KISS、規約、TypeScript、ゴミファイル検出）で多角的にレビュー
-  - トレードオフを考慮した優先度付き改善計画を策定
-  - 統合レポートテンプレート: `skills/reviewing-ts-code/REPORT_TEMPLATE.md`
-  - メトリクス定義: `skills/reviewing-ts-code/METRICS.md`
-
-- **claude-skills-reviewer**: Claude Code スキル自体をベストプラクティスに照らしてレビュー
-  - 8 つの観点から評価（命名、description、Progressive Disclosure など）
+- **claude-skills-review**: Claude Code スキル自体をベストプラクティスに照らして包括的にレビュー
+  - 7つの観点から評価（命名、description、Progressive Disclosure など）
   - A-F 評価とスコアを算出
-  - チェックリスト: `skills/claude-skills-reviewer/CHECKLIST.md`
-
-**含まれるエージェント（agents/review/）:**
-
-- `review-srp-reviewer.md`: Single Responsibility Principle 評価
-- `review-human-code-reviewer.md`: Code for Humans（可読性）評価
-- `review-kiss-reviewer.md`: KISS 原則（シンプルさ）評価
-- `review-coc-reviewer.md`: Convention over Configuration 評価
-- `review-typescript-comprehensive.md`: TypeScript 型安全性総合評価
-- `review-garbage-detector.md`: 不要ファイル・ゴミファイル検出
+  - チェックリスト: `skills/general/claude-skills-review/CHECKLIST.md`
+  - 改善例: `skills/general/claude-skills-review/EXAMPLES.md`
 
 ### 2. jobantenna
 
@@ -61,11 +48,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **含まれるスキル:**
 
-- **laravel-command-patterns**: Laravel Artisan コマンドのベストプラクティス実装パターン
-  - 本番環境で実証済みのパターン
+- **laravel-command**: Laravel Artisan コマンドの実装とレビュー
+  - 本番環境で実証済みのパターン（JobAntenna v4 から抽出）
   - Laravel 9+ 公式推奨に準拠
-  - テンプレート: `skills/jobantenna/laravel-command-patterns/assets/templates/`
-  - リファレンス: `skills/jobantenna/laravel-command-patterns/references/command-patterns.md`
+  - 7種類のテンプレート: `skills/jobantenna/laravel-command/assets/templates/`
+  - リファレンス: `skills/jobantenna/laravel-command/references/command-patterns.md`
+  - 専門レビューエージェント: `skills/jobantenna/laravel-command/agents/laravel-command-reviewer.md`
+  - クイックスタート: `skills/jobantenna/laravel-command/QUICK_START.md`
+
+- **laravel-mail**: Laravel メール機能の実装とレビュー
+  - Mailable、Notification、Twig テンプレートの作成
+  - JobAntenna プロジェクトの確立されたパターンに準拠
+  - Sanitize Traits によるデータ変換: `skills/jobantenna/laravel-mail/references/sanitize-traits-reference.md`
+  - テスト実装パターン: `skills/jobantenna/laravel-mail/references/mail-test-patterns.md`
+  - 専門レビューエージェント: `skills/jobantenna/laravel-mail/agents/laravel-mail-reviewer.md`
+  - クイックスタート: `skills/jobantenna/laravel-mail/QUICK_START.md`
 
 ## スキル開発のベストプラクティス
 
@@ -98,7 +95,7 @@ skills/{skill-name}/
 
 ### エージェントファイル構成
 
-エージェントファイルは Markdown 形式で、以下を含みます：
+エージェントファイルは Markdown 形式で、スキル内の `agents/` ディレクトリに配置します：
 
 - YAML frontmatter（name, description）
 - 役割と専門性の説明
@@ -106,6 +103,15 @@ skills/{skill-name}/
 - 改善提案方法
 - 出力形式
 - 最終報告形式への参照
+
+**配置例:**
+```
+skills/jobantenna/laravel-command/
+├── agents/
+│   └── laravel-command-reviewer.md
+├── SKILL.md
+└── ...
+```
 
 ### 最終報告形式
 
@@ -124,37 +130,64 @@ skills/{skill-name}/
 3. 必要なエージェントを `agents/` ディレクトリに作成
 4. 各ファイルが構造ベストプラクティスに従っているか確認
 
-## テストとレビュー
+## スキルの使用方法
 
 ### スキルのレビュー
 
-`claude-skills-reviewer` スキルを使用して新規スキルの品質を評価：
+`claude-skills-review` スキルを使用して新規スキルの品質を評価します。対象スキルのディレクトリパスを指定して依頼してください。
 
-```bash
-# スキルレビューの実行
-# 対象スキルのディレクトリパスを指定
+**使用例:**
+```
+このスキルをレビューしてください: skills/jobantenna/laravel-command
 ```
 
-### コードのレビュー
+### Laravel コマンドの実装
 
-`reviewing-ts-code` スキルを使用してコード品質を評価：
+`laravel-command` スキルを使用してコマンドを実装またはレビューします。
 
-```bash
-# コードレビューの実行
-# 対象ファイルまたはディレクトリを指定
+**実装例:**
+```
+ユーザーの未承認データを削除するバッチコマンドを作成してください
+```
+
+**レビュー例:**
+```
+app/Console/Commands/DeleteUnverifiedUsers.php をレビューしてください
+```
+
+### Laravel メールの実装
+
+`laravel-mail` スキルを使用してメール機能を実装またはレビューします。
+
+**実装例:**
+```
+パスワードリセット完了メールを作成してください
+```
+
+**レビュー例:**
+```
+app/Mail/PasswordResetComplete.php をレビューしてください
 ```
 
 ## プラグインのインストールと利用
 
-マーケットプレース追加:
+### マーケットプレース追加
+
 ```bash
 /plugin marketplace add interactive-inc/claude-plugins
 ```
 
-プラグインインストール:
+### プラグインインストール
+
 ```bash
-/plugin install review-skills@interactive-claude-plugins
+/plugin install general@interactive-claude-plugins
 /plugin install jobantenna@interactive-claude-plugins
+```
+
+### インストール済みプラグインの確認
+
+```bash
+/plugin list
 ```
 
 ## 注意事項

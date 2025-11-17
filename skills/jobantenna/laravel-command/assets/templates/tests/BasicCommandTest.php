@@ -33,16 +33,16 @@ class BasicCommandTest extends TestCase
      */
     public function commandWithDryRunOption()
     {
+        // Dry-run mode should NOT call the service
         $this->mock(YourService::class, function (MockInterface $mock) {
-            $mock->shouldReceive('process')
-                ->withArgs(function ($dryRun) {
-                    return $dryRun === true;
-                })
-                ->once()
-                ->andReturn(['count' => 0]);
+            $mock->shouldNotReceive('process');
         });
 
         $this->artisan('job-antenna:your-command --dry-run')
+            ->expectsOutput('========================================')
+            ->expectsOutput('  DRY-RUN MODE: No actual processing')
+            ->expectsOutput('========================================')
+            ->expectsOutput('Dry-run completed successfully')
             ->assertExitCode(0);
     }
 

@@ -57,10 +57,19 @@ class ServiceIntegrationCommand extends Command
     public function handle(YourService $service): int
     {
         try {
+            $dryRun = $this->option('dry-run');
+
+            // Display dry-run mode warning at the very beginning
+            if ($dryRun) {
+                $this->warn('========================================');
+                $this->warn('  DRY-RUN MODE: No actual processing');
+                $this->warn('========================================');
+                $this->newLine();
+            }
+
             $this->info('Start: Service integration command');
 
             $targetModels = $this->argument('targetModels') ?? [];
-            $dryRun = $this->option('dry-run');
             $limit = (int) $this->option('limit');
 
             if (empty($targetModels)) {
@@ -72,7 +81,7 @@ class ServiceIntegrationCommand extends Command
                 $this->info("Processing: {$model}");
 
                 if ($dryRun) {
-                    $this->info("  Dry-run: Would process {$model}");
+                    $this->info("  Preview: Would process {$model} with limit={$limit}");
                     continue;
                 }
 
@@ -82,7 +91,12 @@ class ServiceIntegrationCommand extends Command
                 $this->info("  Completed: {$model}");
             }
 
-            $this->info('Done: Service integration command');
+            if ($dryRun) {
+                $this->newLine();
+                $this->info('Dry-run completed successfully');
+            } else {
+                $this->info('Done: Service integration command');
+            }
             return Command::SUCCESS;
         } catch (\Throwable $e) {
             $this->error($e->getMessage(), [

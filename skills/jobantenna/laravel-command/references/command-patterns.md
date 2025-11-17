@@ -341,6 +341,213 @@ $users = $query->select(['id'])->get();
 
 ---
 
+## Dry-Run Mode
+
+### Best Practice: Prominent Warning Display
+
+Always display a clear warning banner at the very beginning of command execution when in dry-run mode. This ensures users immediately know they are in simulation mode before any processing occurs.
+
+**Recommended Pattern**:
+
+```php
+public function handle(YourService $service): int
+{
+    try {
+        $dryRun = $this->option('dry-run');
+
+        // Display dry-run mode warning at the very beginning
+        if ($dryRun) {
+            $this->warn('========================================');
+            $this->warn('  DRY-RUN MODE: No actual processing');
+            $this->warn('========================================');
+            $this->newLine();
+        }
+
+        $this->info('Start: Command processing');
+
+        // ... processing logic ...
+
+        if ($dryRun) {
+            $this->info('Preview: This is what would be executed');
+            // Show preview of what would be processed
+            $this->newLine();
+            $this->info('Dry-run completed successfully');
+            return Command::SUCCESS;
+        }
+
+        // Actual processing
+        $service->process();
+
+        $this->info('Done: Command processing');
+        return Command::SUCCESS;
+    } catch (\Throwable $e) {
+        $this->error($e->getMessage(), [
+            'throwable' => $e,
+            'class'     => __CLASS__,
+        ]);
+        return Command::FAILURE;
+    }
+}
+```
+
+### Pattern 1: Simple Dry-Run with Preview
+
+```php
+public function handle(): int
+{
+    $dryRun = $this->option('dry-run');
+
+    if ($dryRun) {
+        $this->warn('========================================');
+        $this->warn('  DRY-RUN MODE: No actual processing');
+        $this->warn('========================================');
+        $this->newLine();
+    }
+
+    $this->info('Start: Processing');
+
+    if ($dryRun) {
+        $this->info('Preview: Would execute the following actions:');
+        $this->line('  - Action 1');
+        $this->line('  - Action 2');
+        $this->newLine();
+        $this->info('Dry-run completed successfully');
+        return Command::SUCCESS;
+    }
+
+    // Actual processing
+    $this->info('Done: Processing');
+    return Command::SUCCESS;
+}
+```
+
+### Pattern 2: Batch Processing with Dry-Run
+
+```php
+public function handle(YourService $service): int
+{
+    $dryRun = $this->option('dry-run');
+
+    if ($dryRun) {
+        $this->warn('========================================');
+        $this->warn('  DRY-RUN MODE: No actual processing');
+        $this->warn('========================================');
+        $this->newLine();
+    }
+
+    $this->info('Start: Batch processing');
+
+    $query = YourModel::where('status', 'pending');
+    $count = $query->count();
+    $this->info("Processing {$count} records");
+
+    if ($dryRun) {
+        $this->info('Preview: Records that would be processed');
+        $this->newLine();
+        $this->table(
+            ['ID', 'Name', 'Status'],
+            $query->get(['id', 'name', 'status'])->toArray()
+        );
+        $this->newLine();
+        $this->info('Dry-run completed successfully');
+        return Command::SUCCESS;
+    }
+
+    // Actual batch processing
+    $query->cursor()->each(fn($record) => $service->process($record));
+
+    $this->info('Done: Batch processing');
+    return Command::SUCCESS;
+}
+```
+
+### Pattern 3: Service Integration with Dry-Run
+
+```php
+public function handle(YourService $service): int
+{
+    $dryRun = $this->option('dry-run');
+
+    if ($dryRun) {
+        $this->warn('========================================');
+        $this->warn('  DRY-RUN MODE: No actual processing');
+        $this->warn('========================================');
+        $this->newLine();
+    }
+
+    $this->info('Start: Service integration');
+
+    $targetModels = $this->argument('targetModels') ?? [];
+
+    foreach ($targetModels as $model) {
+        $this->info("Processing: {$model}");
+
+        if ($dryRun) {
+            $this->info("  Preview: Would process {$model}");
+            continue;
+        }
+
+        $service->process($model);
+        $this->info("  Completed: {$model}");
+    }
+
+    if ($dryRun) {
+        $this->newLine();
+        $this->info('Dry-run completed successfully');
+    } else {
+        $this->info('Done: Service integration');
+    }
+
+    return Command::SUCCESS;
+}
+```
+
+### Key Benefits
+
+1. **Immediate Visibility**: Warning banner appears before any processing, ensuring users know the mode immediately
+2. **Visual Distinction**: Yellow warning color (via `warn()`) stands out clearly in terminal output
+3. **Consistent Format**: Standardized banner format across all commands
+4. **Clear Completion**: Explicit "Dry-run completed successfully" message at the end
+5. **Preview Information**: Shows exactly what would be processed without making changes
+
+### Anti-Patterns to Avoid
+
+**❌ Bad: Checking dry-run in the middle**
+```php
+public function handle(): int
+{
+    $this->info('Start: Processing'); // User doesn't know it's dry-run yet
+
+    // ... lots of processing ...
+
+    if ($this->option('dry-run')) { // Too late!
+        $this->info('Dry-run mode');
+        return Command::SUCCESS;
+    }
+}
+```
+
+**❌ Bad: No visual distinction**
+```php
+if ($this->option('dry-run')) {
+    $this->info('Dry-run mode'); // Not prominent enough
+}
+```
+
+**✅ Good: Check first, display prominently**
+```php
+$dryRun = $this->option('dry-run');
+
+if ($dryRun) {
+    $this->warn('========================================');
+    $this->warn('  DRY-RUN MODE: No actual processing');
+    $this->warn('========================================');
+    $this->newLine();
+}
+```
+
+---
+
 ## Error Handling
 
 ### Pattern 1: Basic try-catch

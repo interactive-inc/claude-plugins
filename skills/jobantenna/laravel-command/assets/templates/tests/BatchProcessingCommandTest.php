@@ -111,23 +111,17 @@ class BatchProcessingCommandTest extends TestCase
      */
     public function dryRunDoesNotPersist()
     {
+        // Dry-run mode should NOT call processRecord on the service
         $this->mock(YourService::class, function (MockInterface $mock) {
-            $mock->shouldReceive('processRecords')
-                ->withArgs(function ($dryRun) {
-                    return $dryRun === true;
-                })
-                ->andReturn((function () {
-                    yield [
-                        'id'     => '1',
-                        'name'   => 'Preview Only',
-                        'status' => 'dry-run',
-                    ];
-                })())
-                ->once();
+            $mock->shouldNotReceive('processRecord');
         });
 
         $this->artisan('job-antenna:batch-processing --dry-run')
-            ->expectsOutput('Dry-run mode: No actual processing')
+            ->expectsOutput('========================================')
+            ->expectsOutput('  DRY-RUN MODE: No actual processing')
+            ->expectsOutput('========================================')
+            ->expectsOutput('Preview: Records that would be processed')
+            ->expectsOutput('Dry-run completed successfully')
             ->assertExitCode(0);
     }
 }

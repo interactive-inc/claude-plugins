@@ -31,10 +31,19 @@ class BatchProcessingCommand extends Command
     public function handle(YourService $service): int
     {
         try {
+            $dryRun = $this->option('dry-run');
+
+            // Display dry-run mode warning at the very beginning
+            if ($dryRun) {
+                $this->warn('========================================');
+                $this->warn('  DRY-RUN MODE: No actual processing');
+                $this->warn('========================================');
+                $this->newLine();
+            }
+
             $this->info('Start: Batch processing');
 
             $ids = $this->argument('ids');
-            $dryRun = $this->option('dry-run');
             $limit = (int) $this->option('limit');
 
             // Build query
@@ -52,8 +61,11 @@ class BatchProcessingCommand extends Command
             $this->info("Processing {$count} records");
 
             if ($dryRun) {
+                $this->info('Preview: Records that would be processed');
+                $this->newLine();
                 $this->table(['ID', 'Name'], $query->get(['id', 'name'])->toArray());
-                $this->info('Dry-run mode: No actual processing');
+                $this->newLine();
+                $this->info('Dry-run completed successfully');
                 return Command::SUCCESS;
             }
 
