@@ -8,22 +8,27 @@
     {
       "name": "general",
       "description": "skills開発に利用しているプラグイン",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "source": "./",
-      "skills": ["./skills/general/claude-skills-review"]
+      "skills": [
+        "./skills/general/claude/skills-review",
+        "./skills/general/claude/skills-review"
+      ]
     },
     {
       "name": "jobantenna",
       "description": "ジョブアンテナ開発で利用しているプラグイン",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "source": "./",
       "agents": [
         "./skills/jobantenna/laravel-command/agents/laravel-command-reviewer.md",
-        "./skills/jobantenna/laravel-mail/agents/laravel-mail-reviewer.md"
+        "./skills/jobantenna/laravel-mail/agents/laravel-mail-reviewer.md",
+        "./skills/jobantenna/phpunit-runner/agents/phpunit-test-runner.md"
       ],
       "skills": [
         "./skills/jobantenna/laravel-command",
-        "./skills/jobantenna/laravel-mail"
+        "./skills/jobantenna/laravel-mail",
+        "./skills/jobantenna/phpunit-runner"
       ]
     }
   ]
