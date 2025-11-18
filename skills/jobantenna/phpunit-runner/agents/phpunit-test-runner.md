@@ -1,9 +1,6 @@
 ---
 name: phpunit-test-runner
 description: JobAntenna プロジェクトの Docker 環境で PHPUnit テストを実行し、結果を報告する専門エージェント。時間のかかるテスト実行を非同期に処理し、詳細な結果レポートを提供する。
-tools:
-  - Bash
-  - BashOutput
 model: haiku
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: jobantenna-phpunit-runner
-description: Execute PHPUnit tests in JobAntenna's Docker environment (Laradock). Use PROACTIVELY when the user requests to run PHPUnit tests, execute specific test files or filters, or verify test results in the JobAntenna project. This skill MUST BE USED for any PHPUnit test execution requests. This skill launches a specialized agent to handle time-consuming test execution efficiently without blocking the main conversation.
+description: Execute PHPUnit tests in JobAntenna's Docker environment (Laradock). Use when the user requests to run PHPUnit tests, execute specific test files or filters, or verify test results in the JobAntenna project. This skill launches a specialized agent to handle time-consuming test execution efficiently without blocking the main conversation. 「PHPUnitテスト実行」「UserTestを実行」「テストを走らせて」「ApplicationTestの確認」などのリクエスト時に使用。
 ---
 
 # JobAntenna PHPUnit Test Runner
@@ -94,17 +94,7 @@ docker-compose exec workspace bash -c "./vendor/bin/phpunit [options]"
 ## Resources
 
 ### agents/phpunit-test-runner.md
-
-Specialized agent that handles actual test execution:
-- Docker command construction
-- Test execution monitoring
-- Result parsing and reporting
-- Error handling
+Specialized agent for PHPUnit test execution in Docker environment.
 
 ### references/docker-environment.md
-
-Detailed Docker environment configuration for the test runner agent, including:
-- Full Laradock directory structure
-- Container mounting details
-- Environment variables
-- Test directory structure
+Detailed Docker environment configuration and troubleshooting guide.

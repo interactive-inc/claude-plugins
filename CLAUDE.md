@@ -21,48 +21,69 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ├── .claude-plugin/
 │   └── marketplace.json     # プラグインマーケットプレース定義
 └── skills/                  # スキル実装
-    ├── general/             # 汎用スキル
-    │   └── claude-skills-review/  # スキルレビュー
+    ├── claude/              # Claude Code 開発支援スキル
+    │   ├── skills-review/       # スキルレビュー
+    │   └── subagent-review/     # サブエージェントレビュー
     └── jobantenna/          # プロジェクト固有スキル
         ├── laravel-command/ # Laravel コマンド実装
-        └── laravel-mail/    # Laravel メール実装
+        ├── laravel-mail/    # Laravel メール実装
+        └── phpunit-runner/  # PHPUnit テスト実行
 ```
 
 ## 利用可能なプラグイン
 
-### 1. general
+### 1. claude
 
-汎用的な開発支援プラグイン。
+Claude Code 開発支援プラグイン。スキルとサブエージェント開発を支援します。
 
 **含まれるスキル:**
 
-- **claude-skills-review**: Claude Code スキル自体をベストプラクティスに照らして包括的にレビュー
-  - 7つの観点から評価（命名、description、Progressive Disclosure など）
-  - A-F 評価とスコアを算出
-  - チェックリスト: `skills/general/claude-skills-review/CHECKLIST.md`
-  - 改善例: `skills/general/claude-skills-review/EXAMPLES.md`
+- **skills-review**: Claude Code スキル自体をベストプラクティスに照らして包括的にレビュー
+  - 6つの観点から評価（Description 品質、Progressive Disclosure、コンテンツ品質、ワークフロー、テンプレート・例、技術的詳細）
+  - A-F 評価とスコアを算出し、優先度付き改善提案を提供
+  - チェックリスト: `skills/claude/skills-review/CHECKLIST.md`
+  - レポートテンプレート: `skills/claude/skills-review/REPORT_TEMPLATE.md`
+
+- **subagent-review**: Claude Code サブエージェント実装をレビュー
+  - 5つの観点から評価（単一責任原則、システムプロンプト品質、ツールアクセス制限、バージョン管理統合、適切な基盤）
+  - セキュリティ、フォーカス、効果性を確保するための具体的な改善提案
+  - ベストプラクティス例: `skills/claude/subagent-review/references/examples.md`
 
 ### 2. jobantenna
 
-ジョブアンテナプロジェクト固有の開発支援プラグイン。
+JobAntenna プロジェクト固有の開発支援プラグイン。Laravel アプリケーション開発を効率化します。
 
 **含まれるスキル:**
 
 - **laravel-command**: Laravel Artisan コマンドの実装とレビュー
   - 本番環境で実証済みのパターン（JobAntenna v4 から抽出）
   - Laravel 9+ 公式推奨に準拠
-  - 7種類のテンプレート: `skills/jobantenna/laravel-command/assets/templates/`
+  - 7種類のテンプレート（Basic、ServiceIntegration、BatchProcessing、Scheduled、LongRunning、Isolatable）
+  - 8つのコアパターン（カスタムベースクラス、サービス統合、大規模データ処理、Dry-Run、エラーハンドリングなど）
   - リファレンス: `skills/jobantenna/laravel-command/references/command-patterns.md`
   - 専門レビューエージェント: `skills/jobantenna/laravel-command/agents/laravel-command-reviewer.md`
-  - クイックスタート: `skills/jobantenna/laravel-command/QUICK_START.md`
 
 - **laravel-mail**: Laravel メール機能の実装とレビュー
-  - Mailable、Notification、Twig テンプレートの作成
+  - Mailable、Notification、Twig テンプレート、テストの作成
   - JobAntenna プロジェクトの確立されたパターンに準拠
-  - Sanitize Traits によるデータ変換: `skills/jobantenna/laravel-mail/references/sanitize-traits-reference.md`
-  - テスト実装パターン: `skills/jobantenna/laravel-mail/references/mail-test-patterns.md`
+  - 二層アーキテクチャ（Notification + Mailable）による明確な責任分離
+  - 8つの Sanitize Traits による安全なデータ変換
+  - カスタム MailFake による期待値ファイル比較テスト
+  - リファレンス: `skills/jobantenna/laravel-mail/references/sanitize-traits-reference.md`
   - 専門レビューエージェント: `skills/jobantenna/laravel-mail/agents/laravel-mail-reviewer.md`
-  - クイックスタート: `skills/jobantenna/laravel-mail/QUICK_START.md`
+
+- **phpunit-runner**: PHPUnit テストの実行
+  - JobAntenna の Laradock Docker 環境で PHPUnit テストを非同期実行
+  - 専用エージェントによる時間のかかるテスト実行
+  - 特定のクラス、ファイル、またはすべてのテストを柔軟に選択可能
+  - メイン会話をブロックしないバックグラウンド実行
+  - 専門実行エージェント: `skills/jobantenna/phpunit-runner/agents/phpunit-test-runner.md`
+
+**含まれるエージェント:**
+
+- **laravel-command-reviewer**: Laravel Artisan コマンド実装を10の観点から評価し、優先度付き改善提案を提供
+- **laravel-mail-reviewer**: Laravel メール実装を10の観点から評価し、JobAntenna パターンへの準拠をチェック
+- **phpunit-test-runner**: Docker 環境での PHPUnit テスト実行を自動化し、結果レポートを提供
 
 ## スキル開発のベストプラクティス
 
@@ -134,11 +155,20 @@ skills/jobantenna/laravel-command/
 
 ### スキルのレビュー
 
-`claude-skills-review` スキルを使用して新規スキルの品質を評価します。対象スキルのディレクトリパスを指定して依頼してください。
+`skills-review` スキルを使用して新規スキルの品質を評価します。
 
 **使用例:**
 ```
 このスキルをレビューしてください: skills/jobantenna/laravel-command
+```
+
+### サブエージェントのレビュー
+
+`subagent-review` スキルを使用してサブエージェント実装を評価します。
+
+**使用例:**
+```
+このサブエージェントをレビューしてください: skills/jobantenna/laravel-command/agents/laravel-command-reviewer.md
 ```
 
 ### Laravel コマンドの実装
@@ -169,6 +199,20 @@ app/Console/Commands/DeleteUnverifiedUsers.php をレビューしてください
 app/Mail/PasswordResetComplete.php をレビューしてください
 ```
 
+### PHPUnit テストの実行
+
+`phpunit-runner` スキルを使用して Docker 環境でテストを実行します。
+
+**使用例:**
+```
+PHPUnit テストを実行してください
+```
+
+**特定のテストクラスを実行:**
+```
+UserTest クラスのテストを実行してください
+```
+
 ## プラグインのインストールと利用
 
 ### マーケットプレース追加
@@ -180,7 +224,7 @@ app/Mail/PasswordResetComplete.php をレビューしてください
 ### プラグインインストール
 
 ```bash
-/plugin install general@interactive-claude-plugins
+/plugin install claude@interactive-claude-plugins
 /plugin install jobantenna@interactive-claude-plugins
 ```
 

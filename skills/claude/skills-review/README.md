@@ -1,10 +1,10 @@
-# claude-skills-reviewer
+# Skills Review
 
 Claude Code スキルをベストプラクティスに照らして包括的にレビューし、具体的な改善提案を提供するスキルです。
 
 ## 概要
 
-このスキルは、Claude Code のスキルファイル（SKILL.md）を 7 つの観点から評価し、A-F 評価とスコアを算出します。発見可能性、Progressive Disclosure、コンテンツ品質などのベストプラクティスに準拠しているかをチェックし、具体的な改善提案を提供します。
+このスキルは、Claude Code のスキルファイル（SKILL.md）を 6 つの観点から評価し、A-F 評価とスコアを算出します。発見可能性、Progressive Disclosure、コンテンツ品質などのベストプラクティスに準拠しているかをチェックし、具体的な改善提案を提供します。
 
 ## インストール
 
@@ -21,16 +21,16 @@ Claude Code CLI がインストールされている必要があります。
 ### プラグインのインストール
 
 ```bash
-/plugin install review-skills@interactive-claude-plugins
+/plugin install claude@interactive-claude-plugins
 ```
 
 ## 主な機能
 
-- **包括的な評価**: 7 つの観点（必須要件、Description、構造、コンテンツ品質、ワークフロー、テンプレート、技術的詳細）からスキルを評価
+- **包括的な評価**: 6 つの観点（Description 品質、Progressive Disclosure、コンテンツ品質、ワークフロー、テンプレート・例、技術的詳細）からスキルを評価
 - **A-F 評価**: 0-100 点のスコアリングと A-F グレーディング
 - **優先度付き改善提案**: Critical / High / Medium / Low の 4 段階で問題を分類
 - **具体的な修正例**: Before/After 形式で改善例を提示
-- **実行可能なアクション**: 次に取るべき具体的なステップを提案
+- **継続的改善サイクル**: 改善後の再レビューによる品質向上トラッキング
 
 ## 使用タイミング
 
@@ -45,10 +45,10 @@ Claude Code CLI がインストールされている必要があります。
 ## ファイル構成
 
 ```
-skills/claude-skills-reviewer/
+skills/claude/skills-review/
 ├── README.md              # このファイル
 ├── SKILL.md              # メインスキル定義（実行フロー、評価基準）
-├── CHECKLIST.md          # 詳細な評価チェックリスト（7カテゴリ、配点付き）
+├── CHECKLIST.md          # 詳細な評価チェックリスト（6カテゴリ、配点付き）
 ├── REPORT_TEMPLATE.md    # レビューレポート出力テンプレート
 └── EXAMPLES.md           # 良い例・悪い例の具体例
 ```
@@ -59,7 +59,7 @@ skills/claude-skills-reviewer/
 
 1. **スキルの呼び出し**
    ```
-   「claude-skills-reviewer スキルを使って [スキル名] をレビューしてください」
+   「skills-review スキルを使って [スキル名] をレビューしてください」
    ```
 
 2. **対象スキルの指定**
@@ -96,13 +96,12 @@ skills/claude-skills-reviewer/
 
 詳細な評価項目と配点は [CHECKLIST.md](./CHECKLIST.md) を参照してください。
 
-1. **必須要件**: name/description フィールド、YAML frontmatter の正確性
-2. **Description 品質**: 三人称、キーワード、トリガーワード、発見可能性
-3. **構造とファイル構成**: Progressive Disclosure、ファイル分割、参照の深さ
-4. **コンテンツ品質**: 簡潔性、明確性、時間依存情報の回避
-5. **ワークフロー**: 検証ステップ、エラーハンドリング、デフォルト挙動
-6. **テンプレートと例**: 出力テンプレート、具体例、期待される結果
-7. **技術的詳細**: ツール使用、MCP 統合、パフォーマンス
+1. **Description 品質**: 三人称、具体的機能、トリガーワード、最適な長さ（200-800文字）
+2. **Progressive Disclosure**: SKILL.md ≤500行、外部参照の活用、単層の深さ
+3. **コンテンツ品質**: 簡潔性、時間非依存性、用語の一貫性
+4. **ワークフロー**: 明確なステップ、検証ポイント、エラーハンドリング
+5. **テンプレート・例**: 出力テンプレート、良い例・悪い例の提示
+6. **技術的詳細**: スクリプト、MCP ツール参照、依存関係
 
 ### 優先度分類
 
