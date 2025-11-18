@@ -45,7 +45,7 @@ Claude Code CLI がインストールされている必要があります。
 ## ファイル構成
 
 ```
-skills/claude/skills-review/
+skills/claude/skill-review/
 ├── README.md              # このファイル
 ├── SKILL.md              # メインスキル定義（実行フロー、評価基準）
 ├── CHECKLIST.md          # 詳細な評価チェックリスト（6カテゴリ、配点付き）
@@ -59,7 +59,7 @@ skills/claude/skills-review/
 
 1. **スキルの呼び出し**
    ```
-   「skills-review スキルを使って [スキル名] をレビューしてください」
+   「skill-review スキルを使って [スキル名] をレビューしてください」
    ```
 
 2. **対象スキルの指定**

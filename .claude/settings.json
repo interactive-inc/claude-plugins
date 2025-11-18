@@ -1,0 +1,14 @@
+{
+  "extraKnownMarketplaces": {
+    "my-tools": {
+      "source": {
+        "source": "github",
+        "repo": "interactive-inc/claude-plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "claude@interactive-claude-plugins": true,
+    "jobantenna@interactive-claude-plugins": false
+  }
+}

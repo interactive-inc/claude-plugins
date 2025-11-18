@@ -1,5 +1,5 @@
 ---
-name: skills-review
+name: skill-review
 description: Comprehensively review Claude Code skills against best practices, evaluating quality, structure, discoverability, and efficiency across six dimensions (description, progressive disclosure, content quality, workflow, templates, technical details). Provides A-F grades with specific improvement recommendations. Use when users request "skill review," "check skill quality," "validate best practices," "skill assessment," "improve skill," or mention skill evaluation, quality check, or standards compliance.
 allowed-tools: [Read, Glob, Grep, TodoWrite]
 ---

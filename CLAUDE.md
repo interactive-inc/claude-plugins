@@ -22,7 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │   └── marketplace.json     # プラグインマーケットプレース定義
 └── skills/                  # スキル実装
     ├── claude/              # Claude Code 開発支援スキル
-    │   ├── skills-review/       # スキルレビュー
+    │   ├── skill-review/        # スキルレビュー
     │   └── subagent-review/     # サブエージェントレビュー
     └── jobantenna/          # プロジェクト固有スキル
         ├── laravel-command/ # Laravel コマンド実装
@@ -38,11 +38,11 @@ Claude Code 開発支援プラグイン。スキルとサブエージェント�
 
 **含まれるスキル:**
 
-- **skills-review**: Claude Code スキル自体をベストプラクティスに照らして包括的にレビュー
+- **skill-review**: Claude Code スキル自体をベストプラクティスに照らして包括的にレビュー
   - 6つの観点から評価（Description 品質、Progressive Disclosure、コンテンツ品質、ワークフロー、テンプレート・例、技術的詳細）
   - A-F 評価とスコアを算出し、優先度付き改善提案を提供
-  - チェックリスト: `skills/claude/skills-review/CHECKLIST.md`
-  - レポートテンプレート: `skills/claude/skills-review/REPORT_TEMPLATE.md`
+  - チェックリスト: `skills/claude/skill-review/CHECKLIST.md`
+  - レポートテンプレート: `skills/claude/skill-review/REPORT_TEMPLATE.md`
 
 - **subagent-review**: Claude Code サブエージェント実装をレビュー
   - 5つの観点から評価（単一責任原則、システムプロンプト品質、ツールアクセス制限、バージョン管理統合、適切な基盤）
@@ -155,7 +155,7 @@ skills/jobantenna/laravel-command/
 
 ### スキルのレビュー
 
-`skills-review` スキルを使用して新規スキルの品質を評価します。
+`skill-review` スキルを使用して新規スキルの品質を評価します。
 
 **使用例:**
 ```

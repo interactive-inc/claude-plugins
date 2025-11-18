@@ -32,7 +32,7 @@ Interactive Inc. が提供する Claude Code 用のプラグイン集です。
 
 | スキル名 | プラグイン | 用途 | ドキュメント |
 |---------|-----------|------|------------|
-| skills-review | claude | Claude Code スキルのレビュー | [📖](./skills/claude/skills-review/README.md) |
+| skill-review | claude | Claude Code スキルのレビュー | [📖](./skills/claude/skill-review/README.md) |
 | subagent-review | claude | サブエージェントのレビュー | [📖](./skills/claude/subagent-review/README.md) |
 | laravel-command | jobantenna | Laravel コマンド実装・レビュー | [📖](./skills/jobantenna/laravel-command/README.md) |
 | laravel-mail | jobantenna | Laravel メール実装・レビュー | [📖](./skills/jobantenna/laravel-mail/README.md) |
@@ -46,11 +46,11 @@ Claude Code スキルとサブエージェント開発を支援するプラグ�
 
 #### 含まれるスキル
 
-**skills-review**
+**skill-review**
 - Claude Code スキルをベストプラクティスに照らして包括的にレビュー
 - 6つの観点（Description 品質、Progressive Disclosure、コンテンツ品質、ワークフロー、テンプレート・例、技術的詳細）から評価
 - A-F 評価とスコアを算出し、優先度付き改善提案を提供
-- 📖 [詳細ドキュメント](./skills/claude/skills-review/README.md)
+- 📖 [詳細ドキュメント](./skills/claude/skill-review/README.md)
 
 **subagent-review**
 - Claude Code サブエージェント実装をレビュー

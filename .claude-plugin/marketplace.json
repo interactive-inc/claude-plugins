@@ -8,10 +8,10 @@
     {
       "name": "claude",
       "description": "claude開発に利用しているプラグイン",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "source": "./",
       "skills": [
-        "./skills/claude/skills-review",
+        "./skills/claude/skill-review",
         "./skills/claude/subagent-review"
       ]
     },
