@@ -34,6 +34,10 @@ Interactive Inc. が提供する Claude Code 用のプラグイン集です。
 |---------|-----------|------|------------|
 | skill-review | claude | Claude Code スキルのレビュー | [📖](./skills/claude/skill-review/README.md) |
 | subagent-review | claude | サブエージェントのレビュー | [📖](./skills/claude/subagent-review/README.md) |
+| hooks-review | claude | フック設定のレビュー・構成 | [📖](./skills/claude/hooks-review/README.md) |
+| marketplace-review | claude | マーケットプレース設定の検証 | [📖](./skills/claude/marketplace-review/README.md) |
+| mcp-review | claude | MCP サーバー設定のレビュー | [📖](./skills/claude/mcp-review/README.md) |
+| slash-command-review | claude | スラッシュコマンドのレビュー | [📖](./skills/claude/slash-command-review/README.md) |
 | laravel-command | jobantenna | Laravel コマンド実装・レビュー | [📖](./skills/jobantenna/laravel-command/README.md) |
 | laravel-mail | jobantenna | Laravel メール実装・レビュー | [📖](./skills/jobantenna/laravel-mail/README.md) |
 | phpunit-runner | jobantenna | PHPUnit テスト実行 | [📖](./skills/jobantenna/phpunit-runner/README.md) |
@@ -57,6 +61,34 @@ Claude Code スキルとサブエージェント開発を支援するプラグ�
 - 5つの観点（単一責任原則、システムプロンプト品質、ツールアクセス制限、バージョン管理統合、適切な基盤）から評価
 - セキュリティ、フォーカス、効果性を確保するための具体的な改善提案
 - 📖 [詳細ドキュメント](./skills/claude/subagent-review/README.md)
+
+**hooks-review**
+- Claude Code フック設定をレビュー・構成し、ワークフロー自動化を支援
+- セキュリティ脆弱性、パフォーマンス問題、ベストプラクティス違反を検出
+- 9種類のフックイベント（PreToolUse、PostToolUse、UserPromptSubmit など）をサポート
+- 優先度付き推奨事項と具体的な修正例を提供
+- 📖 [詳細ドキュメント](./skills/claude/hooks-review/README.md)
+
+**marketplace-review**
+- `.claude-plugin/marketplace.json` の構造と参照パスを検証
+- プラグイン、スキル、エージェントの定義を自動チェック
+- Python スクリプトによる包括的な検証とエラーレポート
+- マーケットプレース公開前の品質保証
+- 📖 [詳細ドキュメント](./skills/claude/marketplace-review/README.md)
+
+**mcp-review**
+- MCP サーバー設定（.mcp.json）をベストプラクティスに照らして検証
+- 7つの観点（セキュリティ、スコープ管理、トランスポートタイプなど）から評価
+- ハードコードされた秘密情報、不適切な環境変数使用を検出
+- stdio/HTTP/SSE の適切なトランスポート選択をガイド
+- 📖 [詳細ドキュメント](./skills/claude/mcp-review/README.md)
+
+**slash-command-review**
+- スラッシュコマンド実装をベストプラクティスに照らしてレビュー
+- 6つの観点（メタデータ、引数処理、動的機能、セキュリティ、スコープ、スキル境界）から評価
+- A-F 評価とスコアリング、優先度付き改善提案
+- コマンドインジェクション、パストラバーサルなどのセキュリティリスクを検出
+- 📖 [詳細ドキュメント](./skills/claude/slash-command-review/README.md)
 
 ---
 

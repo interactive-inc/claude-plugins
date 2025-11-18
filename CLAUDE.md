@@ -23,7 +23,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 └── skills/                  # スキル実装
     ├── claude/              # Claude Code 開発支援スキル
     │   ├── skill-review/        # スキルレビュー
-    │   └── subagent-review/     # サブエージェントレビュー
+    │   ├── subagent-review/     # サブエージェントレビュー
+    │   ├── hooks-review/        # フック設定レビュー
+    │   ├── marketplace-review/  # マーケットプレース検証
+    │   ├── mcp-review/          # MCP サーバー設定レビュー
+    │   └── slash-command-review/ # スラッシュコマンドレビュー
     └── jobantenna/          # プロジェクト固有スキル
         ├── laravel-command/ # Laravel コマンド実装
         ├── laravel-mail/    # Laravel メール実装
@@ -48,6 +52,28 @@ Claude Code 開発支援プラグイン。スキルとサブエージェント�
   - 5つの観点から評価（単一責任原則、システムプロンプト品質、ツールアクセス制限、バージョン管理統合、適切な基盤）
   - セキュリティ、フォーカス、効果性を確保するための具体的な改善提案
   - ベストプラクティス例: `skills/claude/subagent-review/references/examples.md`
+
+- **hooks-review**: Claude Code フック設定をレビュー・構成し、ワークフロー自動化を支援
+  - セキュリティ脆弱性、パフォーマンス問題、ベストプラクティス違反を検出
+  - 9種類のフックイベント（PreToolUse、PostToolUse、UserPromptSubmit など）をサポート
+  - 優先度付き推奨事項と具体的な修正例を提供
+
+- **marketplace-review**: マーケットプレース設定の検証
+  - `.claude-plugin/marketplace.json` の構造と参照パスを自動チェック
+  - プラグイン、スキル、エージェントの定義を包括的に検証
+  - Python スクリプトによるエラーレポートと品質保証
+  - マーケットプレース公開前の必須チェック
+
+- **mcp-review**: MCP サーバー設定のレビュー
+  - `.mcp.json` をベストプラクティスに照らして検証
+  - 7つの観点（セキュリティ、スコープ管理、トランスポートタイプなど）から評価
+  - ハードコードされた秘密情報、不適切な環境変数使用を検出
+  - stdio/HTTP/SSE の適切なトランスポート選択をガイド
+
+- **slash-command-review**: スラッシュコマンド実装のレビュー
+  - 6つの観点（メタデータ、引数処理、動的機能、セキュリティ、スコープ、スキル境界）から評価
+  - A-F 評価とスコアリング、優先度付き改善提案
+  - コマンドインジェクション、パストラバーサルなどのセキュリティリスクを検出
 
 ### 2. jobantenna
 
@@ -169,6 +195,42 @@ skills/jobantenna/laravel-command/
 **使用例:**
 ```
 このサブエージェントをレビューしてください: skills/jobantenna/laravel-command/agents/laravel-command-reviewer.md
+```
+
+### フック設定のレビュー
+
+`hooks-review` スキルを使用してフック設定をレビューし、セキュリティとベストプラクティスを確認します。
+
+**使用例:**
+```
+フック設定をレビューしてください
+```
+
+### マーケットプレース設定の検証
+
+`marketplace-review` スキルを使用してマーケットプレース設定を検証します。
+
+**使用例:**
+```
+マーケットプレース設定を検証してください
+```
+
+### MCP サーバー設定のレビュー
+
+`mcp-review` スキルを使用して MCP サーバー設定をレビューします。
+
+**使用例:**
+```
+MCP サーバー設定をレビューしてください
+```
+
+### スラッシュコマンドのレビュー
+
+`slash-command-review` スキルを使用してスラッシュコマンド実装をレビューします。
+
+**使用例:**
+```
+スラッシュコマンドをレビューしてください: .claude/commands/my-command.md
 ```
 
 ### Laravel コマンドの実装
